@@ -3,6 +3,7 @@
  + License: MIT
  + Authors: Christian Koestlin
  +/
+module app;
 
 import std.stdio;
 import std.string;
