@@ -6,6 +6,15 @@
 
 import std.stdio;
 import std.string;
+import std.process;
+import std.file;
+import std.path;
+import std.file;
+import std.regex;
+void writeContent(string file, string content) {
+    file.dirName.mkdirRecurse;
+    std.file.write(file, content);
+}
 
 int main(string[] args)
 {
@@ -17,7 +26,7 @@ int main(string[] args)
     {
         import packageversion;
 
-        defaultGetoptPrinter("packageversion %s. Generates a simple packageversion module.".format(
+        defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format(
                 packageversion.packageVersion), info.options);
         return 0;
     }
@@ -27,22 +36,31 @@ int main(string[] args)
         return 1;
     }
 
-    import std.process;
-
     auto gitVersion = ["git", "describe"].execute.output.strip;
 
-    import std.file;
+    auto file = "source/" ~ packageName.replace(".", "/") ~ "/packageversion.d";
+    auto moduleText = "module %s;\n".format(packageName);
+    auto packageVersionText = "auto packageVersion = \"%s\"".format(gitVersion);
+    auto totalText = moduleText ~ packageVersionText;
 
-    auto fileName = "source/" ~ packageName.replace(".", "/") ~ "/packageversion.d";
-
-    import std.path;
-
-    auto directory = dirName(fileName);
-    writeln("directory: ", directory);
-    mkdirRecurse(directory);
-    std.file.write(fileName, "module %s;
-auto packageVersion = \"%s\";
-".format(packageName, gitVersion));
-
+    if (exists(file)) {
+        auto content = file.readText;
+        auto replaceVersionRegexp = regex("^auto packageVersion = \"(.*)\";$", "m");
+        if (!matchFirst(content, replaceVersionRegexp).empty) {
+            auto newContent = content.replaceFirst(replaceVersionRegexp, packageVersionText);
+            if (newContent != content) {
+                "Updating packageversion module.".writeln;
+                file.writeContent(newContent);
+            } else {
+                "packageversion module already up to date.".writeln;
+            }
+        } else {
+            "Adding packageversion to existing module.".writeln;
+            file.writeContent(content ~packageVersionText);
+        }
+    } else {
+        "Adding packageversion module to project.".writeln;
+        file.writeContent(totalText);
+    }
     return 0;
 }

@@ -5,4 +5,4 @@
  +/
 
 module packageversion;
-auto packageVersion = "v0.0.1";
+auto packageVersion = "v0.0.2";
