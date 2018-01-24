@@ -4,7 +4,3 @@ authors "Christian Köstlin"
 copyright "Copyright © 2018, Christian Köstlin"
 license "MIT"
 x:ddoxFilterArgs "--min-protection=Private"
-
-preGenerateCommands "dub run packageversion -- --packageName=packageversion"
-sourcePaths "source" "out/generated/packageversion"
-importPaths "source" "out/generated/packageversion"

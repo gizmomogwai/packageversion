@@ -11,7 +11,6 @@ import std.file;
 import std.path;
 import std.file;
 import std.regex;
-import packageversion.packageversion;
 
 void writeContent(string file, string content)
 {
@@ -28,7 +27,7 @@ int main(string[] args)
     if (info.helpWanted)
     {
         defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format(
-                packageversion.packageversion.packageVersion), info.options);
+                "v0.0.7"), info.options);
         return 0;
     }
     if (packageName == null)
