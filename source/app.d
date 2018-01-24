@@ -11,6 +11,8 @@ import std.file;
 import std.path;
 import std.file;
 import std.regex;
+import packageversion.packageversion;
+
 void writeContent(string file, string content) {
     file.dirName.mkdirRecurse;
     std.file.write(file, content);
@@ -24,10 +26,8 @@ int main(string[] args)
     auto info = getopt(args, "packageName", &packageName);
     if (info.helpWanted)
     {
-        import packageversion;
-
         defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format(
-                packageversion.packageVersion), info.options);
+                packageversion.packageversion.packageVersion), info.options);
         return 0;
     }
     if (packageName == null)
@@ -38,9 +38,9 @@ int main(string[] args)
 
     auto gitVersion = ["git", "describe", "--dirty"].execute.output.strip;
 
-    auto file = "source/" ~ packageName.replace(".", "/") ~ "/packageversion.d";
+    auto file = "out/gen/" ~ packageName.replace(".", "/") ~ "/packageversion.d";
     auto moduleText = "module %s;\n".format(packageName);
-    auto packageVersionText = "auto packageVersion = \"%s\";".format(gitVersion);
+    auto packageVersionText = "auto packageVersion = \"%s\";\n".format(gitVersion);
     auto totalText = moduleText ~ packageVersionText;
 
     if (exists(file)) {
