@@ -1,3 +1,9 @@
+/++
+ + Copyright: Copyright © 2018, Christian Köstlin
+ + License: MIT
+ + Authors: Christian Koestlin
+ +/
+
 import std.stdio;
 import std.string;
 
@@ -10,7 +16,9 @@ int main(string[] args)
     if (info.helpWanted)
     {
         import packageversion;
-        defaultGetoptPrinter("packageversion %s. Generates a simple packageversion module.".format(packageversion.packageVersion), info.options);
+
+        defaultGetoptPrinter("packageversion %s. Generates a simple packageversion module.".format(
+                packageversion.packageVersion), info.options);
         return 0;
     }
     if (packageName == null)
