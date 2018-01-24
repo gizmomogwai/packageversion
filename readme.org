@@ -1,0 +1,4 @@
+* packageversion [[https://github.com/gizmomogwai/packageversion][https://img.shields.io/github/tag/gizmomogwai/packageversion.svg?style=flat-square]] [[https://travis-ci.org/gizmomogwai/packageversion][https://img.shields.io/travis/gizmomogwai/packageversion/master.svg?style=flat-square]] [[https://codecov.io/gh/gizmomogwai/packageversion][https://img.shields.io/codecov/c/github/gizmomogwai/packageversion/master.svg?style=flat-square]] [[https://gizmomogwai.github.io/packageversion][https://img.shields.io/readthedocs/pip.svg?style=flat-square]]
+
+Packageversion is a simple tool to generate or update version information for a dub package by using git describe.
+In contrast to [[https://github.com/Abscissa/gen-package-version][gen-package-version]] the version is not time dependent which makes builds more reproducible.
