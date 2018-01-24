@@ -7,3 +7,4 @@ packageversion
 *.o
 *.obj
 *.lst
+packageversion-test-library
