@@ -13,7 +13,7 @@ after_success: codecov
 deploy:
   provider: pages
   skip-cleanup: true
-  local-dir: "docs"
+  local-dir: docs
   github-token: "$GH_REPO_TOKEN"
   verbose: true
   keep-history: true
@@ -21,4 +21,4 @@ deploy:
     branch: master
 env:
   global:
-    secure: create this token with travis encrypt GH_REPO_TOKEN=key from https://github.com/settings/tokens
+  - secure: DuZaw5Z66/aaj4Dmg0zvMQ4+xO4OhfaFILhL4kHc80QrNmbyuYOoKTIPl4+s6gBDTSzaiNnXxVo6DgTS9CdZLhGyFZ7dEvEk3IfKN/jVgzjXJjOUAM73L1GiEGKkS7z/2VR0RFDz1afF4EtEFOuCMN5JrAC5tIgZJH12IJKnmbhy4xCaZEPMPLsP6bh7LptoRa3i2HwBo67ilqHCkPuB5y3uxMNyNmXYoxn/3CdBZpbhIBthiGc/QffsTogIbvX7Ip8watc/gN5J7V5ozGZIVvROCpnRfUtOUkqq8SKuyElo77TiG/IBIeOnJmxOhZ29S8njG16XqwJzPx0fY425oz9kieyx/EHLcuP87iKgbCVTS0ybXtV37e5VN1/guI3BzBdVcb7Cj+QfejqAGAiAi2VcvLDi0AUlcO9VP/WtPeBC6A8DJ+GT8NxMFcCn7+7Vc7ulCRjG8k1xT3a0QbCR2YH2VsplNrLNgzwuJqp06oWD0phLg5COJs3mB6V09YoW3enR8f/apeT3vQHxog+Ean/0xZUVH//saenqCUHbEwFKYEiRYuQN7ll0U+ZZ61CBOEc+gclzexwCvan7qG/YqaQJ3CjAuqevVTwZdM+6wuCTY+x8KDSpHozJIWdgsY+JJZs39v7udc4NNI+4krQt4cDTVQryYrXYT2kKvxu3i7k=
