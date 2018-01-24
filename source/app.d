@@ -38,8 +38,8 @@ int main(string[] args)
 
     auto gitVersion = ["git", "describe", "--dirty"].execute.output.strip;
 
-    auto file = "out/gen/" ~ packageName.replace(".", "/") ~ "/packageversion.d";
-    auto moduleText = "module %s;\n".format(packageName);
+    auto file = "out/generated/packageversion/" ~ packageName.replace(".", "/") ~ "/packageversion.d";
+    auto moduleText = "module %s.packageversion;\n".format(packageName);
     auto packageVersionText = "auto packageVersion = \"%s\";\n".format(gitVersion);
     auto totalText = moduleText ~ packageVersionText;
 
