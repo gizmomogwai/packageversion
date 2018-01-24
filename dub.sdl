@@ -1,0 +1,5 @@
+name "packageversion"
+description "Generates a simple packageversion module."
+authors "Christian Köstlin"
+copyright "Copyright © 2018, Christian Köstlin"
+license "MIT"
