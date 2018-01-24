@@ -6,7 +6,7 @@ addons:
     - libevent-dev
 before_install: pip install --user codecov
 script:
-- dub test --compiler=${DC} --coverage
+- dub test --compiler=${DC} --coverage -- -h
 - dub build --build=release
 - dub build --build=ddox
 after_success: codecov
