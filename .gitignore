@@ -2,12 +2,7 @@
 docs.json
 __dummy.html
 docs/
-packageversion.so
-packageversion.dylib
-packageversion.dll
-packageversion.a
-packageversion.lib
-packageversion-test-*
+packageversion
 *.exe
 *.o
 *.obj
