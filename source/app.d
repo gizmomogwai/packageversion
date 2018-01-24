@@ -36,11 +36,11 @@ int main(string[] args)
         return 1;
     }
 
-    auto gitVersion = ["git", "describe"].execute.output.strip;
+    auto gitVersion = ["git", "describe", "--dirty"].execute.output.strip;
 
     auto file = "source/" ~ packageName.replace(".", "/") ~ "/packageversion.d";
     auto moduleText = "module %s;\n".format(packageName);
-    auto packageVersionText = "auto packageVersion = \"%s\"".format(gitVersion);
+    auto packageVersionText = "auto packageVersion = \"%s\";".format(gitVersion);
     auto totalText = moduleText ~ packageVersionText;
 
     if (exists(file)) {
