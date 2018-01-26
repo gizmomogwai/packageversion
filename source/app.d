@@ -37,18 +37,23 @@ int main(string[] args)
         return 1;
     }
 
-    auto gitVersion = ["git", "describe", "--dirty"].execute.output.strip;
+    auto gitCommand = ["git", "describe", "--dirty"].execute;
+    if (gitCommand.status != 0) {
+        throw new Exception("Cannot get version with git describe --dirty, make sure you have at least one annotated tag");
+    }
+
+    auto gitVersion = gitCommand.output.strip;
 
     auto file = "out/generated/packageversion/" ~ packageName.replace(".",
             "/") ~ "/packageversion.d";
     auto moduleText = "module %s.packageversion;\n".format(packageName);
-    auto packageVersionText = "auto packageVersion = \"%s\";\n".format(gitVersion);
+    auto packageVersionText = "const PACKAGE_VERSION = \"%s\";\n".format(gitVersion);
     auto totalText = moduleText ~ packageVersionText;
 
     if (exists(file))
     {
         auto content = file.readText;
-        auto replaceVersionRegexp = regex("^auto packageVersion = \"(.*)\";$", "m");
+        auto replaceVersionRegexp = regex("^const PACKAGE_VERSION = \"(.*)\";$", "m");
         if (!matchFirst(content, replaceVersionRegexp).empty)
         {
             auto newContent = content.replaceFirst(replaceVersionRegexp, packageVersionText);
