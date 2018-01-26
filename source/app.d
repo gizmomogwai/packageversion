@@ -27,8 +27,8 @@ int main(string[] args)
     auto info = getopt(args, "packageName", &packageName);
     if (info.helpWanted)
     {
-        defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format(
-                "v0.0.7"), info.options);
+        defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format("v0.0.10"),
+                info.options);
         return 0;
     }
     if (packageName == null)
@@ -38,8 +38,10 @@ int main(string[] args)
     }
 
     auto gitCommand = ["git", "describe", "--dirty"].execute;
-    if (gitCommand.status != 0) {
-        throw new Exception("Cannot get version with git describe --dirty, make sure you have at least one annotated tag");
+    if (gitCommand.status != 0)
+    {
+        throw new Exception(
+                "Cannot get version with git describe --dirty, make sure you have at least one annotated tag");
     }
 
     auto gitVersion = gitCommand.output.strip;
