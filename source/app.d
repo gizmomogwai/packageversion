@@ -19,12 +19,44 @@ void writeContent(string file, string content)
     std.file.write(file, content);
 }
 
+auto getFromDubSdl(string what)
+{
+    auto pattern = "^%1$s \"(?P<%1$s>.*)\"$".format(what);
+    auto text = readText("dub.sdl");
+    auto match = matchFirst(text, regex(pattern, "m"));
+    return match[what];
+}
+
+string getVersion(string source)
+{
+    if (source == "git")
+    {
+        auto gitCommand = ["git", "describe", "--dirty"].execute;
+        if (gitCommand.status != 0)
+        {
+            throw new Exception(
+                    "Cannot get version with git describe --dirty, make sure you have at least one annotated tag");
+        }
+
+        return gitCommand.output.strip;
+    }
+    else
+    {
+        return getFromDubSdl("version");
+    }
+}
+
 int main(string[] args)
 {
     import std.getopt;
 
     string packageName;
-    auto info = getopt(args, "packageName", &packageName);
+    string source = "git";
+    // dfmt off
+    auto info = getopt(args,
+                       "packageName", &packageName,
+                       "source", &source);
+    // dfmt on
     if (info.helpWanted)
     {
         defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format("v0.0.10"),
@@ -37,31 +69,25 @@ int main(string[] args)
         return 1;
     }
 
-    auto gitCommand = ["git", "describe", "--dirty"].execute;
-    if (gitCommand.status != 0)
-    {
-        throw new Exception(
-                "Cannot get version with git describe --dirty, make sure you have at least one annotated tag");
-    }
-
-    auto gitVersion = gitCommand.output.strip;
+    auto versionText = getVersion(source);
 
     auto file = "out/generated/packageversion/" ~ packageName.replace(".",
             "/") ~ "/packageversion.d";
     auto moduleText = "module %s.packageversion;\n".format(packageName);
-    auto packageVersionText = "const PACKAGE_VERSION = \"%s\";\n".format(gitVersion);
+    auto packageVersionText = "const PACKAGE_VERSION = \"%s\";\n".format(versionText);
     auto totalText = moduleText ~ packageVersionText;
 
     if (exists(file))
     {
         auto content = file.readText;
-        auto replaceVersionRegexp = regex("^const PACKAGE_VERSION = \"(.*)\";$", "m");
+        auto replaceVersionRegexp = regex("^const PACKAGE_VERSION = \"(.*)\";\n$", "m");
         if (!matchFirst(content, replaceVersionRegexp).empty)
         {
             auto newContent = content.replaceFirst(replaceVersionRegexp, packageVersionText);
             if (newContent != content)
             {
-                "Updating packageversion module.".writeln;
+                "Updating packageversion module from\n%s\nto%s.".format(content,
+                        newContent).writeln;
                 file.writeContent(newContent);
             }
             else
