@@ -10,4 +10,8 @@ var symbols = [
 {name: 'app.main', kind: "functiondeclaration", path: './app/main.html', attributes: []},
 {name: 'app.packageDir', kind: "functiondeclaration", path: './app/packageDir.html', attributes: ["auto", "safe"]},
 {name: 'app.writeContent', kind: "functiondeclaration", path: './app/writeContent.html', attributes: []},
+{name: 'packageversion', kind: "module", path: './packageversion.html', attributes: []},
+{name: 'packageversion.getPackages', kind: "functiondeclaration", path: './packageversion/getPackages.html', attributes: ["auto", "nothrow", "nogc", "safe"]},
+{name: 'packageversion.packages', kind: "variabledeclaration", path: './packageversion/packages.html', attributes: []},
+{name: 'packageversion.registerPackageVersion', kind: "functiondeclaration", path: './packageversion/registerPackageVersion.html', attributes: []},
 ];

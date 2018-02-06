@@ -11,4 +11,8 @@
 <url><loc>http://127.0.0.1/app/main.html</loc></url>
 <url><loc>http://127.0.0.1/app/packageDir.html</loc></url>
 <url><loc>http://127.0.0.1/app/writeContent.html</loc></url>
+<url><loc>http://127.0.0.1/packageversion.html</loc></url>
+<url><loc>http://127.0.0.1/packageversion/getPackages.html</loc></url>
+<url><loc>http://127.0.0.1/packageversion/packages.html</loc></url>
+<url><loc>http://127.0.0.1/packageversion/registerPackageVersion.html</loc></url>
 </urlset>

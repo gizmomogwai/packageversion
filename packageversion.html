@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8"/>
-		<title>Module app</title>
+		<title>Module packageversion</title>
 		<link rel="stylesheet" type="text/css" href="./styles/ddox.css"/>
 		<link rel="stylesheet" href="./prettify/prettify.css" type="text/css"/>
 		<script type="text/javascript" src="./scripts/jquery.js">/**/</script><script type="text/javascript" src="./scripts/ddox.js">/**/</script>
@@ -21,19 +21,19 @@ $('#symbolSearchPane').show();</script>
 			</div>
 			<ul class="tree-view">
 				<li>
-					<div class="module selected">
+					<div class="module ">
 						<a href="./app.html">app</a>
 					</div>
 				</li>
 				<li>
-					<div class="module ">
+					<div class="module selected">
 						<a href="./packageversion.html">packageversion</a>
 					</div>
 				</li>
 			</ul>
 		</nav>
 		<div id="main-contents">
-			<h1>Module app</h1><p></p>
+			<h1>Module packageversion</h1><p></p>
 			<section></section>
 			<section>
 				<h2>Functions</h2>
@@ -45,7 +45,7 @@ $('#symbolSearchPane').show();</script>
 					<tr>
 						<td>
 							<code>
-								<a id="getFromDubJson" class="public" href="./app/getFromDubJson.html">getFromDubJson</a><span class="decoration">(path, what)</span>
+								<a id="getPackages" class="public" href="./packageversion/getPackages.html">getPackages</a><span class="decoration">()</span>
 							</code>
 						</td>
 						<td></td>
@@ -53,64 +53,28 @@ $('#symbolSearchPane').show();</script>
 					<tr>
 						<td>
 							<code>
-								<a id="getFromDubJsonFromPackageDir" class="public" href="./app/getFromDubJsonFromPackageDir.html">getFromDubJsonFromPackageDir</a><span class="decoration">()</span>
+								<a id="registerPackageVersion" class="public" href="./packageversion/registerPackageVersion.html">registerPackageVersion</a><span class="decoration">(name, semVer)</span>
 							</code>
 						</td>
 						<td></td>
 					</tr>
+				</table>
+			</section>
+			<section>
+				<h2>Global variables</h2>
+				<table>
+					<col class="caption"/>
 					<tr>
-						<td>
-							<code>
-								<a id="getFromDubSdl" class="public" href="./app/getFromDubSdl.html">getFromDubSdl</a><span class="decoration">(path, what)</span>
-							</code>
-						</td>
-						<td></td>
+						<th>Name</th><th>Type</th><th>Description</th>
 					</tr>
 					<tr>
 						<td>
-							<code>
-								<a id="getFromDubSdlFromPackageDir" class="public" href="./app/getFromDubSdlFromPackageDir.html">getFromDubSdlFromPackageDir</a><span class="decoration">()</span>
-							</code>
+							<a id="packages" class="public" href="./packageversion/packages.html">
+								<code>packages</code>
+							</a>
 						</td>
-						<td></td>
-					</tr>
-					<tr>
 						<td>
-							<code>
-								<a id="getFromGit" class="public" href="./app/getFromGit.html">getFromGit</a><span class="decoration">()</span>
-							</code>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>
-							<code>
-								<a id="getVersion" class="public" href="./app/getVersion.html">getVersion</a><span class="decoration">()</span>
-							</code>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>
-							<code>
-								<a id="main" class="public" href="./app/main.html">main</a><span class="decoration">(args)</span>
-							</code>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>
-							<code>
-								<a id="packageDir" class="public" href="./app/packageDir.html">packageDir</a><span class="decoration">()</span>
-							</code>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>
-							<code>
-								<a id="writeContent" class="public" href="./app/writeContent.html">writeContent</a><span class="decoration">(file, content)</span>
-							</code>
+							<code class="prettyprint lang-d"><span class="typ">string</span><span class="pun">[</span><span class="typ">string</span><span class="pun">]</span></code>
 						</td>
 						<td></td>
 					</tr>
@@ -121,25 +85,19 @@ $('#symbolSearchPane').show();</script>
 					<tr>
 						<th>Authors</th>
 						<td>
-							<p>Christian Koestlin
-</p>
-
+							
 						</td>
 					</tr>
 					<tr>
 						<th>Copyright</th>
 						<td>
-							<p>Copyright © 2018, Christian Köstlin
-</p>
-
+							
 						</td>
 					</tr>
 					<tr>
 						<th>License</th>
 						<td>
-							<p>MIT
-</p>
-
+							
 						</td>
 					</tr>
 				</table>
