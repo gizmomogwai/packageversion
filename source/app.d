@@ -12,6 +12,7 @@ import std.file;
 import std.path;
 import std.file;
 import std.regex;
+import std.experimental.logger;
 
 void writeContent(string file, string content)
 {
@@ -19,31 +20,104 @@ void writeContent(string file, string content)
     std.file.write(file, content);
 }
 
-auto getFromDubSdl(string what)
+auto getFromDubSdl(string path, string what)
 {
-    auto pattern = "^%1$s \"(?P<%1$s>.*)\"$".format(what);
-    auto text = readText("dub.sdl");
-    auto match = matchFirst(text, regex(pattern, "m"));
-    return match[what];
+    try
+    {
+        auto pattern = "^%1$s \"(?P<%1$s>.*)\"$".format(what);
+        auto text = readText(path);
+        auto match = matchFirst(text, regex(pattern, "m"));
+        if (match.empty)
+        {
+            return null;
+        }
+        return match[what];
+    }
+    catch (FileException e)
+    {
+        trace(e);
+        return null;
+    }
 }
 
-string getVersion(string source)
+auto getFromDubJson(string path, string what)
 {
-    if (source == "git")
+    try
     {
-        auto gitCommand = ["git", "describe", "--dirty"].execute;
-        if (gitCommand.status != 0)
-        {
-            throw new Exception(
-                    "Cannot get version with git describe --dirty, make sure you have at least one annotated tag");
-        }
+        import std.json;
 
-        return gitCommand.output.strip;
+        auto json = parseJSON(readText(path));
+        return json[what].str;
     }
-    else
+    catch (FileException e)
     {
-        return getFromDubSdl("version");
+        trace(e);
+        return null;
     }
+}
+
+auto packageDir()
+{
+    import std.process;
+
+    auto e = std.process.environment.toAA;
+    if ("DUB_PACKAGE_DIR" !in e)
+    {
+        return null;
+    }
+    return e["DUB_PACKAGE_DIR"];
+}
+
+auto getFromDubJsonFromPackageDir()
+{
+    if (string pd = packageDir)
+    {
+        return getFromDubJson(pd ~ "/dub.json", "version");
+    }
+    return null;
+}
+
+string getFromDubSdlFromPackageDir()
+{
+    if (string pd = packageDir)
+    {
+        return getFromDubSdl(pd ~ "/dub.sdl", "version");
+    }
+    return null;
+}
+
+string getFromGit()
+{
+    auto gitCommand = ["git", "describe", "--dirty"].execute(null, Config.none,
+            size_t.max, packageDir);
+    if (gitCommand.status != 0)
+    {
+        "Cannot get version with git describe --dirty, make sure you have at least one annotated tag"
+            .info;
+        return null;
+    }
+
+    return gitCommand.output.strip;
+}
+
+string getVersion()
+{
+    if (string res = getFromDubJsonFromPackageDir)
+    {
+        "Using version from dub.json '%s'".format(res).warning;
+        return res;
+    }
+    if (string res = getFromDubSdlFromPackageDir)
+    {
+        "Using version from dub.sdl '%s'".format(res).warning;
+        return res;
+    }
+    if (string res = getFromGit)
+    {
+        "Using version from git '%s'".format(res).warning;
+        return res;
+    }
+    throw new Exception("Cannot determine version");
 }
 
 int main(string[] args)
@@ -51,15 +125,10 @@ int main(string[] args)
     import std.getopt;
 
     string packageName;
-    string source = "git";
-    // dfmt off
-    auto info = getopt(args,
-                       "packageName", &packageName,
-                       "source", &source);
-    // dfmt on
+    auto info = getopt(args, "packageName", &packageName);
     if (info.helpWanted)
     {
-        defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format("v0.0.10"),
+        defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format("v0.0.11"),
                 info.options);
         return 0;
     }
@@ -69,41 +138,28 @@ int main(string[] args)
         return 1;
     }
 
-    auto versionText = getVersion(source);
+    auto versionText = getVersion();
 
     auto file = "out/generated/packageversion/" ~ packageName.replace(".",
             "/") ~ "/packageversion.d";
     auto moduleText = "module %s.packageversion;\n".format(packageName);
     auto packageVersionText = "const PACKAGE_VERSION = \"%s\";\n".format(versionText);
-    auto totalText = moduleText ~ packageVersionText;
+    auto registerVersionText = "static this()\n{\n    import packageversion;\n    packageversion.registerPackageVersion(\"%s\", \"%s\");\n}\n"
+        .format(packageName, versionText);
+    auto totalText = moduleText ~ packageVersionText ~ registerVersionText;
 
     if (exists(file))
     {
         auto content = file.readText;
-        auto replaceVersionRegexp = regex("^const PACKAGE_VERSION = \"(.*)\";\n$", "m");
-        if (!matchFirst(content, replaceVersionRegexp).empty)
+        if (content != totalText)
         {
-            auto newContent = content.replaceFirst(replaceVersionRegexp, packageVersionText);
-            if (newContent != content)
-            {
-                "Updating packageversion module from\n%s\nto%s.".format(content,
-                        newContent).writeln;
-                file.writeContent(newContent);
-            }
-            else
-            {
-                "packageversion module already up to date.".writeln;
-            }
-        }
-        else
-        {
-            "Adding packageversion to existing module.".writeln;
-            file.writeContent(content ~ packageVersionText);
+            "Updating packageversion module".warning;
+            file.writeContent(totalText);
         }
     }
     else
     {
-        "Adding packageversion module to project.".writeln;
+        "Writing packageversion module".warning;
         file.writeContent(totalText);
     }
     return 0;

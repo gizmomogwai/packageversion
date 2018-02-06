@@ -8,3 +8,4 @@ packageversion
 *.obj
 *.lst
 packageversion-test-library
+/libpackageversion.a

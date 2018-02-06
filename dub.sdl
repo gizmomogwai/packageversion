@@ -4,3 +4,13 @@ authors "Christian Köstlin"
 copyright "Copyright © 2018, Christian Köstlin"
 license "MIT"
 x:ddoxFilterArgs "--min-protection=Private"
+
+configuration "application" {
+  targetType "executable"
+  mainSourceFile "source/app.d"
+}
+
+configuration "library" {
+  targetType "library"
+  excludedSourceFiles "source/app.d"
+}

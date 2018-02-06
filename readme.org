@@ -1,4 +1,17 @@
 * packageversion [[https://github.com/gizmomogwai/packageversion][https://img.shields.io/github/tag/gizmomogwai/packageversion.svg?style=flat-square]] [[https://travis-ci.org/gizmomogwai/packageversion][https://img.shields.io/travis/gizmomogwai/packageversion/master.svg?style=flat-square]] [[https://codecov.io/gh/gizmomogwai/packageversion][https://img.shields.io/codecov/c/github/gizmomogwai/packageversion/master.svg?style=flat-square]] [[https://gizmomogwai.github.io/packageversion][https://img.shields.io/readthedocs/pip.svg?style=flat-square]]
 
-Packageversion is a simple tool to generate or update version information for a dub package by using git describe.
+Packageversion is a simple tool to generate or update version information for a dub package.
+It uses several mechanisms to find this version:
+1. look into DUB_PACKAGE_DIR dub.json
+2. look into DUB_PACKAGE_DIR dub.sdl
+3. use git describe in DUB_PACKAGE_DIR
+Because of this strategies its possible to generate also version numbers in builds of dependencies of a dub project.
+
+The generated modules register the package (with its version) to the packageversion api, that then can be used to print
+the projects (and its dependencies versions).
+
+** Prior art
 In contrast to [[https://github.com/Abscissa/gen-package-version][gen-package-version]] the version is not time dependent which makes builds more reproducible.
+
+** Todos
+*** TODO Change api to use a real package version struct that includes name, version, license, ...
