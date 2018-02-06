@@ -2,8 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>http://127.0.0.1/index.html</loc></url>
 <url><loc>http://127.0.0.1/app.html</loc></url>
+<url><loc>http://127.0.0.1/app/getFromDubJson.html</loc></url>
+<url><loc>http://127.0.0.1/app/getFromDubJsonFromPackageDir.html</loc></url>
 <url><loc>http://127.0.0.1/app/getFromDubSdl.html</loc></url>
+<url><loc>http://127.0.0.1/app/getFromDubSdlFromPackageDir.html</loc></url>
+<url><loc>http://127.0.0.1/app/getFromGit.html</loc></url>
 <url><loc>http://127.0.0.1/app/getVersion.html</loc></url>
 <url><loc>http://127.0.0.1/app/main.html</loc></url>
+<url><loc>http://127.0.0.1/app/packageDir.html</loc></url>
 <url><loc>http://127.0.0.1/app/writeContent.html</loc></url>
 </urlset>
