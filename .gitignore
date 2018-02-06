@@ -2,10 +2,11 @@
 docs.json
 __dummy.html
 docs/
-packageversion
 *.exe
 *.o
 *.obj
 *.lst
-packageversion-test-library
+/packageversion-test-library
 /libpackageversion.a
+/packageversion
+out

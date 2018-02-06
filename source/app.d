@@ -128,7 +128,7 @@ int main(string[] args)
     auto info = getopt(args, "packageName", &packageName);
     if (info.helpWanted)
     {
-        defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format("v0.0.11"),
+        defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format("v0.0.12"),
                 info.options);
         return 0;
     }
