@@ -35,7 +35,6 @@ auto getFromDubSdl(string path, string what)
     }
     catch (FileException e)
     {
-        trace(e);
         return null;
     }
 }
@@ -46,12 +45,10 @@ auto getFromDubJson(string path, string what)
     {
         import std.json;
 
-        auto json = parseJSON(readText(path));
-        return json[what].str;
+        return parseJSON(readText(path))[what].str;
     }
     catch (FileException e)
     {
-        trace(e);
         return null;
     }
 }
@@ -68,20 +65,20 @@ auto packageDir()
     return e["DUB_PACKAGE_DIR"];
 }
 
-auto getFromDubJsonFromPackageDir()
+auto getFromDubJsonFromPackageDir(string what)
 {
     if (string pd = packageDir)
     {
-        return getFromDubJson(pd ~ "/dub.json", "version");
+        return getFromDubJson(pd ~ "/dub.json", what);
     }
     return null;
 }
 
-string getFromDubSdlFromPackageDir()
+string getFromDubSdlFromPackageDir(string what)
 {
     if (string pd = packageDir)
     {
-        return getFromDubSdl(pd ~ "/dub.sdl", "version");
+        return getFromDubSdl(pd ~ "/dub.sdl", what);
     }
     return null;
 }
@@ -100,24 +97,42 @@ string getFromGit()
     return gitCommand.output.strip;
 }
 
-string getVersion()
+string getLicense()
 {
-    if (string res = getFromDubJsonFromPackageDir)
+    auto what = "license";
+    if (string res = getFromDubJsonFromPackageDir(what))
     {
-        "Using version from dub.json '%s'".format(res).warning;
+        "Using %s from dub.json '%s'".format(what, res).warning;
         return res;
     }
-    if (string res = getFromDubSdlFromPackageDir)
+    if (string res = getFromDubSdlFromPackageDir(what))
     {
-        "Using version from dub.sdl '%s'".format(res).warning;
+        "Using %s from dub.sdl '%s'".format(what, res).warning;
+        return res;
+    }
+    throw new Exception("Cannot determine %s".format(what));
+
+}
+
+string getVersion()
+{
+    auto what = "version";
+    if (string res = getFromDubJsonFromPackageDir(what))
+    {
+        "Using %s from dub.json '%s'".format(what, res).warning;
+        return res;
+    }
+    if (string res = getFromDubSdlFromPackageDir(what))
+    {
+        "Using %s from dub.sdl '%s'".format(what, res).warning;
         return res;
     }
     if (string res = getFromGit)
     {
-        "Using version from git '%s'".format(res).warning;
+        "Using %s from git '%s'".format(what, res).warning;
         return res;
     }
-    throw new Exception("Cannot determine version");
+    throw new Exception("Cannot determine %s".format(what));
 }
 
 int main(string[] args)
@@ -139,13 +154,13 @@ int main(string[] args)
     }
 
     auto versionText = getVersion();
-
+    auto license = getLicense();
     auto file = "out/generated/packageversion/" ~ packageName.replace(".",
             "/") ~ "/packageversion.d";
     auto moduleText = "module %s.packageversion;\n".format(packageName);
     auto packageVersionText = "const PACKAGE_VERSION = \"%s\";\n".format(versionText);
-    auto registerVersionText = "static this()\n{\n    import packageversion;\n    packageversion.registerPackageVersion(\"%s\", \"%s\");\n}\n"
-        .format(packageName, versionText);
+    auto registerVersionText = "static this()\n{\n    import packageversion;\n    packageversion.registerPackageVersion(\"%s\", \"%s\", \"%s\");\n}\n"
+        .format(packageName, versionText, license);
     auto totalText = moduleText ~ packageVersionText ~ registerVersionText;
 
     if (exists(file))
