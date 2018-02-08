@@ -17,3 +17,8 @@ auto getPackages()
 {
     return packages;
 }
+
+static this()
+{
+    registerPackageVersion("packageversion", "0.0.14", "MIT");
+}
