@@ -20,14 +20,21 @@
 $('#symbolSearchPane').show();</script>
 			</div>
 			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="./packageversion.html">packageversion</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="./packageversion/packageversion.html">packageversion</a>
+					</div>
+				</li>
+			</ul>
+				</li>
 				<li>
 					<div class="module selected">
 						<a href="./app.html">app</a>
-					</div>
-				</li>
-				<li>
-					<div class="module ">
-						<a href="./packageversion.html">packageversion</a>
 					</div>
 				</li>
 			</ul>
@@ -45,6 +52,14 @@ $('#symbolSearchPane').show();</script>
 					<tr>
 						<td>
 							<code>
+								<a id="dubPackage" class="public" href="./app/dubPackage.html">dubPackage</a><span class="decoration">()</span>
+							</code>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>
+							<code>
 								<a id="getFromDubJson" class="public" href="./app/getFromDubJson.html">getFromDubJson</a><span class="decoration">(path, what)</span>
 							</code>
 						</td>
@@ -53,7 +68,7 @@ $('#symbolSearchPane').show();</script>
 					<tr>
 						<td>
 							<code>
-								<a id="getFromDubJsonFromPackageDir" class="public" href="./app/getFromDubJsonFromPackageDir.html">getFromDubJsonFromPackageDir</a><span class="decoration">()</span>
+								<a id="getFromDubJsonFromPackageDir" class="public" href="./app/getFromDubJsonFromPackageDir.html">getFromDubJsonFromPackageDir</a><span class="decoration">(what)</span>
 							</code>
 						</td>
 						<td></td>
@@ -69,7 +84,7 @@ $('#symbolSearchPane').show();</script>
 					<tr>
 						<td>
 							<code>
-								<a id="getFromDubSdlFromPackageDir" class="public" href="./app/getFromDubSdlFromPackageDir.html">getFromDubSdlFromPackageDir</a><span class="decoration">()</span>
+								<a id="getFromDubSdlFromPackageDir" class="public" href="./app/getFromDubSdlFromPackageDir.html">getFromDubSdlFromPackageDir</a><span class="decoration">(what)</span>
 							</code>
 						</td>
 						<td></td>
@@ -78,6 +93,14 @@ $('#symbolSearchPane').show();</script>
 						<td>
 							<code>
 								<a id="getFromGit" class="public" href="./app/getFromGit.html">getFromGit</a><span class="decoration">()</span>
+							</code>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="getLicense" class="public" href="./app/getLicense.html">getLicense</a><span class="decoration">()</span>
 							</code>
 						</td>
 						<td></td>

@@ -20,14 +20,21 @@
 $('#symbolSearchPane').show();</script>
 			</div>
 			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package selected">
+						<a href="./packageversion.html">packageversion</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="./packageversion/packageversion.html">packageversion</a>
+					</div>
+				</li>
+			</ul>
+				</li>
 				<li>
 					<div class="module ">
 						<a href="./app.html">app</a>
-					</div>
-				</li>
-				<li>
-					<div class="module selected">
-						<a href="./packageversion.html">packageversion</a>
 					</div>
 				</li>
 			</ul>
@@ -53,7 +60,24 @@ $('#symbolSearchPane').show();</script>
 					<tr>
 						<td>
 							<code>
-								<a id="registerPackageVersion" class="public" href="./packageversion/registerPackageVersion.html">registerPackageVersion</a><span class="decoration">(name, semVer)</span>
+								<a id="registerPackageVersion" class="public" href="./packageversion/registerPackageVersion.html">registerPackageVersion</a><span class="decoration">(name, semVer, license)</span>
+							</code>
+						</td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h2>Structs</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="Package" class="public" href="./packageversion/Package.html">Package</a>
 							</code>
 						</td>
 						<td></td>
@@ -74,7 +98,7 @@ $('#symbolSearchPane').show();</script>
 							</a>
 						</td>
 						<td>
-							<code class="prettyprint lang-d"><span class="typ">string</span><span class="pun">[</span><span class="typ">string</span><span class="pun">]</span></code>
+							<code class="prettyprint lang-d"><a href="./packageversion/Package.html"><span class="typ">Package</span></a><span class="pun">[]</span></code>
 						</td>
 						<td></td>
 					</tr>
