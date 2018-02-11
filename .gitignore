@@ -7,6 +7,4 @@ docs/
 *.obj
 *.lst
 /packageversion-test-library
-/libpackageversion.a
-/packageversion
 out

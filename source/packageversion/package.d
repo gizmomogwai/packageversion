@@ -1,6 +1,9 @@
 module packageversion;
 
+public import packageversion.packageversion;
+
 Package[] packages;
+
 
 struct Package
 {
@@ -18,7 +21,3 @@ auto getPackages()
     return packages;
 }
 
-static this()
-{
-    registerPackageVersion("packageversion", "0.0.14", "MIT");
-}

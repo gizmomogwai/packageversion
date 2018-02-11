@@ -53,16 +53,25 @@ auto getFromDubJson(string path, string what)
     }
 }
 
+import std.process;
 auto packageDir()
 {
-    import std.process;
-
     auto e = std.process.environment.toAA;
     if ("DUB_PACKAGE_DIR" !in e)
     {
         return null;
     }
     return e["DUB_PACKAGE_DIR"];
+}
+
+auto dubPackage()
+{
+    auto e = std.process.environment.toAA;
+    if ("DUB_PACKAGE" !in e)
+    {
+        return null;
+    }
+    return e["DUB_PACKAGE"];
 }
 
 auto getFromDubJsonFromPackageDir(string what)
@@ -143,7 +152,8 @@ int main(string[] args)
     auto info = getopt(args, "packageName", &packageName);
     if (info.helpWanted)
     {
-        defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format("v0.0.12"),
+        import packageversion.packageversion;
+        defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format(VERSION),
                 info.options);
         return 0;
     }
@@ -153,10 +163,19 @@ int main(string[] args)
         return 1;
     }
 
+    "packageversion for '%s' in '%s'".format(packageName, packageDir).warning;
+
+    if (packageName != dubPackage) {
+        writeln(std.process.environment.toAA);
+        "Skipping packageversion".warning;
+        return 0;
+    }
     auto versionText = getVersion();
     auto license = getLicense();
-    auto file = "out/generated/packageversion/" ~ packageName.replace(".",
-            "/") ~ "/packageversion.d";
+
+    auto file = (packageDir ? packageDir ~ "/" : "./")
+        ~ "out/generated/packageversion/"
+        ~ packageName.replace(".",  "/") ~ "/packageversion.d";
     auto moduleText = "module %s.packageversion;\n".format(packageName);
     auto packageVersionText = "const PACKAGE_VERSION = \"%s\";\n".format(versionText);
     auto registerVersionText = "static this()\n{\n    import packageversion;\n    packageversion.registerPackageVersion(\"%s\", \"%s\", \"%s\");\n}\n"

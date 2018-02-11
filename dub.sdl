@@ -7,10 +7,14 @@ x:ddoxFilterArgs "--min-protection=Private"
 
 configuration "application" {
   targetType "executable"
+  targetPath "out/main"
+
   mainSourceFile "source/app.d"
 }
 
 configuration "library" {
   targetType "library"
+  targetPath "out/lib"
+
   excludedSourceFiles "source/app.d"
 }

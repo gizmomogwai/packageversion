@@ -15,3 +15,26 @@ In contrast to [[https://github.com/Abscissa/gen-package-version][gen-package-ve
 
 ** Todos
 *** TODO Change api to use a real package version struct that includes name, version, license, ...
+
+** Best practice for libraries that want to provide a packageversion
+If your are a library, that wants to provide packageversion information:
+- add packageversion dependency:
+#+NAME: add depencency
+#+BEGIN_SRC: sdl
+dependency "packageversion" version="~>0.0.15"
+subConfiguration "packageversion" "library"
+#+END_SRC
+- add a call to packageversion's api in a static packageversion module:
+#+NAME: use packageversion api
+#+BEGIN_SRC: dlang
+module ponies.packageversion;
+const VERSION = "v0.0.3-24-g1bdc8d6-dirty";
+const NAME = "ponies";
+const LICENSE = "MIT";
+static this()
+{
+    import packageversion;
+    packageversion.registerPackageVersion(NAME, VERSION, LICENSE);
+}
+#+END_SRC
+- public import your packageversion module so that client of your library link against it automatically.
