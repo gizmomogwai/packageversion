@@ -177,10 +177,11 @@ int main(string[] args)
         ~ "out/generated/packageversion/"
         ~ packageName.replace(".",  "/") ~ "/packageversion.d";
     auto moduleText = "module %s.packageversion;\n".format(packageName);
-    auto packageVersionText = "const PACKAGE_VERSION = \"%s\";\n".format(versionText);
-    auto registerVersionText = "static this()\n{\n    import packageversion;\n    packageversion.registerPackageVersion(\"%s\", \"%s\", \"%s\");\n}\n"
-        .format(packageName, versionText, license);
-    auto totalText = moduleText ~ packageVersionText ~ registerVersionText;
+    auto nameText = "const NAME = \"%s\";\n".format(packageName);
+    auto packageVersionText = "const VERSION = \"%s\";\n".format(versionText);
+    auto licenseText = "const LICENSE = \"%s\";\n".format(license);
+    auto registerVersionText = "static this()\n{\n    import packageversion;\n    packageversion.registerPackageVersion(NAME, VERSION, LICENSE);\n}\n";
+    auto totalText = moduleText ~ nameText ~ packageVersionText ~ licenseText ~ registerVersionText;
 
     if (exists(file))
     {
