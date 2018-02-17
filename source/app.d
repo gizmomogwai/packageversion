@@ -148,7 +148,7 @@ int main(string[] args)
 {
     import std.getopt;
 
-    string packageName;
+    string packageName = std.process.environment.toAA["DUB_PACKAGE"];
     auto info = getopt(args, "packageName", &packageName);
     if (info.helpWanted)
     {
@@ -162,11 +162,9 @@ int main(string[] args)
         defaultGetoptPrinter("Packagename required.", info.options);
         return 1;
     }
-
     "packageversion for '%s' in '%s'".format(packageName, packageDir).warning;
 
     if (packageName != dubPackage) {
-        writeln(std.process.environment.toAA);
         "Skipping packageversion".warning;
         return 0;
     }
