@@ -1,7 +1,7 @@
 /++
  + Copyright: Copyright © 2018, Christian Köstlin
  + License: MIT
- + Authors: Christian Koestlin
+ + Authors: Christian Koestlin, Christian Köstlin
  +/
 module app;
 
@@ -54,6 +54,7 @@ auto getFromDubJson(string path, string what)
 }
 
 import std.process;
+
 auto packageDir()
 {
     auto e = std.process.environment.toAA;
@@ -148,11 +149,29 @@ int main(string[] args)
 {
     import std.getopt;
 
+    class CustomLogger : Logger
+    {
+        this(LogLevel lv) @safe
+        {
+            super(lv);
+        }
+
+        override void writeLogMsg(ref LogEntry payload)
+        {
+            import std.stdio;
+
+            writeln(payload.msg);
+        }
+    }
+
+    sharedLog = new CustomLogger(LogLevel.trace);
+
     string packageName = std.process.environment.toAA["DUB_PACKAGE"];
     auto info = getopt(args, "packageName", &packageName);
     if (info.helpWanted)
     {
         import packageversion.packageversion;
+
         defaultGetoptPrinter("packageversion %s. Generate or update a simple packageversion module.".format(VERSION),
                 info.options);
         return 0;
@@ -164,16 +183,16 @@ int main(string[] args)
     }
     "packageversion for '%s' in '%s'".format(packageName, packageDir).warning;
 
-    if (packageName != dubPackage) {
+    if (packageName != dubPackage)
+    {
         "Skipping packageversion".warning;
         return 0;
     }
     auto versionText = getVersion();
     auto license = getLicense();
 
-    auto file = (packageDir ? packageDir ~ "/" : "./")
-        ~ "out/generated/packageversion/"
-        ~ packageName.replace(".",  "/") ~ "/packageversion.d";
+    auto file = (packageDir ? packageDir ~ "/" : "./") ~ "out/generated/packageversion/"
+        ~ packageName.replace(".", "/") ~ "/packageversion.d";
     auto moduleText = "module %s.packageversion;\n".format(packageName);
     auto nameText = "const NAME = \"%s\";\n".format(packageName);
     auto packageVersionText = "const VERSION = \"%s\";\n".format(versionText);
@@ -188,6 +207,10 @@ int main(string[] args)
         {
             "Updating packageversion module".warning;
             file.writeContent(totalText);
+        }
+        else
+        {
+            "Packageversion already up-to-date".warning;
         }
     }
     else
