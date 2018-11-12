@@ -14,6 +14,7 @@
 <url><loc>http://127.0.0.1/app/getFromGit.html</loc></url>
 <url><loc>http://127.0.0.1/app/getLicense.html</loc></url>
 <url><loc>http://127.0.0.1/app/getVersion.html</loc></url>
+<url><loc>http://127.0.0.1/app/getVersionFromEnv.html</loc></url>
 <url><loc>http://127.0.0.1/app/main.html</loc></url>
 <url><loc>http://127.0.0.1/app/packageDir.html</loc></url>
 <url><loc>http://127.0.0.1/app/writeContent.html</loc></url>

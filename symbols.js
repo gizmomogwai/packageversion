@@ -13,6 +13,7 @@ var symbols = [
 {name: 'app.getFromGit', kind: "functiondeclaration", path: './app/getFromGit.html', attributes: []},
 {name: 'app.getLicense', kind: "functiondeclaration", path: './app/getLicense.html', attributes: []},
 {name: 'app.getVersion', kind: "functiondeclaration", path: './app/getVersion.html', attributes: []},
+{name: 'app.getVersionFromEnv', kind: "functiondeclaration", path: './app/getVersionFromEnv.html', attributes: []},
 {name: 'app.main', kind: "functiondeclaration", path: './app/main.html', attributes: []},
 {name: 'app.packageDir', kind: "functiondeclaration", path: './app/packageDir.html', attributes: ["auto", "safe"]},
 {name: 'app.writeContent', kind: "functiondeclaration", path: './app/writeContent.html', attributes: []},
