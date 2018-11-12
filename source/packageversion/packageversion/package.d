@@ -7,7 +7,7 @@
 module packageversion.packageversion;
 import packageversion;
 
-const VERSION = "0.0.17";
+const VERSION = "0.0.18";
 const LICENSE = "MIT";
 const NAME = "packageversion";
 static this()

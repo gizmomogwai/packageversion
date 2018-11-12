@@ -53,8 +53,6 @@ auto getFromDubJson(string path, string what)
     }
 }
 
-import std.process;
-
 auto packageDir()
 {
     auto e = std.process.environment.toAA;
@@ -124,9 +122,19 @@ string getLicense()
 
 }
 
+string getVersionFromEnv()
+{
+    return std.process.environment["DUB_PACKAGE_VERSION"];
+}
+
 string getVersion()
 {
     auto what = "version";
+    if (string res = getVersionFromEnv())
+    {
+        "Using %s from env".format(res).warning;
+        return res;
+    }
     if (string res = getFromDubJsonFromPackageDir(what))
     {
         "Using %s from dub.json '%s'".format(what, res).warning;
@@ -165,8 +173,8 @@ int main(string[] args)
     }
 
     sharedLog = new CustomLogger(LogLevel.trace);
-
-    string packageName = std.process.environment.toAA["DUB_PACKAGE"];
+    writeln(args);
+    string packageName = std.process.environment.get("DUB_PACKAGE");
     auto info = getopt(args, "packageName", &packageName);
     if (info.helpWanted)
     {
