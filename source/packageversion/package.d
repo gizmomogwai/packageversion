@@ -6,6 +6,8 @@
 
 module packageversion;
 
+@safe:
+
 public import packageversion.packageversion;
 
 Package[] packages;
